@@ -1,0 +1,16 @@
+name: ActEdad
+on:
+schedule:
+- cron: '*/5 * * *'
+workflow_dispatch:
+
+jobs:
+update:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v3
+- name: ChecknUpdate
+run: |
+          AGE=$(node -e "console.log(((new Date() - new Date('2010-07-01T03:00:00-05:00')) / (1000*60*60*24*365.2422)).toFixed(6))")
+          sed -i "s/<!-- AGE -->.*<!-- AGE -->/<!-- AGE -->$AGE<!-- AGE -->/" README.md
+- uses: stefanzweifel/git-auto-commit-action@v4
